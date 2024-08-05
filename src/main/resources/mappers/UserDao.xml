@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.geer.dao.UserDao">
+    <select id="queryUserByUserNameAndPwd" parameterType="String" resultType="ca.geer.domain.User">
+        SELECT l.user_id,
+               l.user_name,
+               l.password,
+               p.user_id,
+               p.gender,
+               p.phone,
+               p.email,
+               p.photo,
+               p.level,
+               p.verified,
+               p.bio
+        FROM user l
+                 LEFT JOIN
+             profile p ON l.user_id = p.user_id
+
+        WHERE l.user_name = #{username}
+          AND l.password = #{password}
+    </select>
+    <select id="queryUserByUserId" parameterType="long">
+        SELECT l.local_auth_id,
+               l.user_name,
+               l.password,
+               p.user_id,
+               p.phone,
+               p.gender,
+               p.email,
+               p.photo,
+               p.level
+               p.verified
+               p.bio
+        FROM user l
+                 LEFT JOIN
+             profile p ON l.user_id = p.user_id
+
+        WHERE l.user_id = #{userId}
+
+    </select>
+    <insert id="insertUser" parameterType="ca.geer.domain.User"
+            useGeneratedKeys="true" keyProperty="userId" keyColumn="user_id">
+        INSERT
+        INTO user(user_name, password, user_type)
+        VALUES (#{userName}, #{password}, #{userType})
+    </insert>
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="newPassword != null">
+                password=#{newPassword},
+            </if>
+        </set>
+        where user_id=#{userId}
+        AND user_name=#{username}
+        AND
+        password=#{password}
+    </update>
+</mapper>

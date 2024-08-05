@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    save
+    <form th:action="@{/skills/save}" method="post">
+        <input name="id" placeholder="id">
+        <input name="name" placeholder="name">
+        <input name="level" placeholder="level">
+        <button type="submit">save</button>
+    </form>
+    <a href="/app/download">download txt</a>
+</div>
+</body>
+</html>
